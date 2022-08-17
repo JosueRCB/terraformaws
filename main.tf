@@ -1,19 +1,37 @@
-terraform {
-  required_version = ">= 1.2.0"
-}
-
+# Configure the AWS Provider
 provider "aws" {
-  region  = "us-west-2"
-  AWSSecretKey = "Vbxt54BFBg1PVgQvLgPeg7UHeanLLYHDsq3S9ars"
-  AWSAccessKeyId="AKIA3PZHURNFC5WTUV4H"
-  
+  region     = "us-east-2"
+  access_key = ""
+  secret_key = ""
 }
 
-resource "aws_instance" "firts-instance" {
-  ami           = "ami-090fa75af13c156b4"
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
+resource "aws_instance" "proyecto" {
+  ami           = data.aws_ami.ubuntu.id
+  //ami = "" // NO ES ELEGANTE!
   instance_type = "t2.micro"
+  key_name = "Josue"
 
   tags = {
-    Name = "Ejemplos"
+    Name = "proyecto01"
   }
+}
+
+output "public_ip" {
+  value       = aws_instance.web.public_ip
 }
