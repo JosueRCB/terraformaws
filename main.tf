@@ -31,7 +31,3 @@ resource "aws_instance" "proyecto" {
     Name = "proyecto01"
   }
 }
-
-output "public_ip" {
-  value       = aws_instance.web.public_ip
-}
