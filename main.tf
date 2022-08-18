@@ -1,32 +1,14 @@
-# Configure the AWS Provider
-terraform{
+terraform {
+  required_version = ">= 1.2.0"
+}
+
 provider "aws" {
-  region     = "us-east-2"
-  //access_key = ""
-  //secret_key = ""
-}
-}
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+  region  = "us-west-2"
 }
 
 resource "aws_instance" "proyecto" {
-  ami           = data.aws_ami.ubuntu.id
-  //ami = "" // NO ES ELEGANTE!
+  ami           = "ami-830c94e3"
   instance_type = "t2.micro"
-  key_name = "Josue"
 
   tags = {
     Name = "proyecto01"
